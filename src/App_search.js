@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import CardList from "./components/card-list/card-list.component";
-import Checkbox from "./components/checkbox/checkbox.component";
+import SearchBox from "./components/search-box/search-box.component";
 
 import "./App.css";
 
 const App = () => {
+  const [searchField, setSearchField] = useState(""); //[value, setValue]
   const [monsters, setMonsters] = useState([]);
   const [filteredMonsters, setFilteredMonsters] = useState(monsters);
-  const [checkedBoxValues, setCheckedBoxValues] = useState([]);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -17,28 +17,23 @@ const App = () => {
 
   useEffect(() => {
     const newFilteredMonsters = monsters.filter((monster) => {
-      // if (checkedBoxValues) {
-        // console.log(checkedBoxValues);
-        return monster.email.toLocaleLowerCase().includes(checkedBoxValues);
-      // } else {
-      //   return true;
-      // }
+      return monster.name.toLocaleLowerCase().includes(searchField);
     });
     setFilteredMonsters(newFilteredMonsters);
-  }, [monsters, checkedBoxValues]);
+  }, [monsters, searchField]);
 
-  const onCheckboxChange = (event) => {
-    console.log(event.target.value);
-    setCheckedBoxValues(event.target.checked ? event.target.value : "");
+  const onSearchChange = (event) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
   };
 
   return (
     <div className="App">
       <h1 className="app-title">Monster Roloex</h1>
-      <Checkbox
-        className="monsters-checkbox"
-        onChangeHandler={onCheckboxChange}
-        values={["biz", "org", "net"]}
+      <SearchBox
+        className="monsters-search-box"
+        onChangeHandler={onSearchChange}
+        placeholder="search monsters"
       />
       <CardList monsters={filteredMonsters} />
     </div>
