@@ -7,10 +7,12 @@ import "./App.css";
 const App = () => {
   const [monsters, setMonsters] = useState([]);
   const [filteredMonsters, setFilteredMonsters] = useState(monsters);
-  const [checkedBoxValues, setCheckedBoxValues] = useState([]);
+  const [genderValues, setGenderValues] = useState([]);
+  const [raceValues, setRaceValues] = useState([]);
+  const [statusValues, setStatusValues] = useState([]);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
+    fetch("/name.json")
       .then((response) => response.json())
       .then((users) => setMonsters(users));
   }, []);
@@ -18,27 +20,49 @@ const App = () => {
   useEffect(() => {
     const newFilteredMonsters = monsters.filter((monster) => {
       // if (checkedBoxValues) {
-        // console.log(checkedBoxValues);
-        return monster.email.toLocaleLowerCase().includes(checkedBoxValues);
+      // console.log(checkedBoxValues);
+      return (
+        monster.gender.toLocaleLowerCase().includes(genderValues)&&
+        monster.race.toLocaleLowerCase().includes(raceValues)&&
+        monster.status.toLocaleLowerCase().includes(statusValues)
+      )
       // } else {
       //   return true;
       // }
     });
     setFilteredMonsters(newFilteredMonsters);
-  }, [monsters, checkedBoxValues]);
+  }, [monsters, genderValues, raceValues, statusValues]);
 
-  const onCheckboxChange = (event) => {
-    console.log(event.target.value);
-    setCheckedBoxValues(event.target.checked ? event.target.value : "");
+  const onGenderCheckboxChange = (event) => {
+    setGenderValues(event.target.checked ? event.target.value : "");
+  };
+  const onRaceCheckboxChange = (event) => {
+    setRaceValues(event.target.checked ? event.target.value : "");
+  };
+  const onStatusCheckboxChange = (event) => {
+    setStatusValues(event.target.checked ? event.target.value : "");
   };
 
   return (
     <div className="App">
       <h1 className="app-title">Monster Roloex</h1>
       <Checkbox
+        id="gender"
         className="monsters-checkbox"
-        onChangeHandler={onCheckboxChange}
-        values={["biz", "org", "net"]}
+        onChangeHandler={onGenderCheckboxChange}
+        values={["male", "female", "non-binary"]}
+      />
+      <Checkbox
+        id="race"
+        className="monsters-checkbox"
+        onChangeHandler={onRaceCheckboxChange}
+        values={["black", "white", "asian"]}
+      />
+      <Checkbox
+        id="status"
+        className="monsters-checkbox"
+        onChangeHandler={onStatusCheckboxChange}
+        values={["student", "faculty", "staff"]}
       />
       <CardList monsters={filteredMonsters} />
     </div>
