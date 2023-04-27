@@ -25,7 +25,6 @@ const App = () => {
         statusValues.includes(monster.status)
       );
     });
-    console.log(filteredMonsters);
     setFilteredMonsters(filteredMonsters);
   }, [monsters, genderValues, raceValues, statusValues]);
 
@@ -70,6 +69,8 @@ const App = () => {
     }
     setStatusValues(newStatusValues);
   };
+
+
 
   return (
     <div className="App">
