@@ -6,7 +6,7 @@ import "./App.css";
 
 const App = () => {
   const [monsters, setMonsters] = useState([]);
-  const [filteredMonsters, setFilteredMonsters] = useState(monsters);
+  var [filteredMonsters, setFilteredMonsters] = useState(monsters);
   const [genderValues, setGenderValues] = useState([]);
   const [raceValues, setRaceValues] = useState([]);
   const [statusValues, setStatusValues] = useState([]);
@@ -18,29 +18,57 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const newFilteredMonsters = monsters.filter((monster) => {
-      // if (checkedBoxValues) {
-      // console.log(checkedBoxValues);
+    filteredMonsters = monsters.filter((monster) => {
       return (
-        monster.gender.toLocaleLowerCase().includes(genderValues)&&
-        monster.race.toLocaleLowerCase().includes(raceValues)&&
-        monster.status.toLocaleLowerCase().includes(statusValues)
-      )
-      // } else {
-      //   return true;
-      // }
+        genderValues.includes(monster.gender) &&
+        raceValues.includes(monster.race) &&
+        statusValues.includes(monster.status)
+      );
     });
-    setFilteredMonsters(newFilteredMonsters);
+    console.log(filteredMonsters);
+    setFilteredMonsters(filteredMonsters);
   }, [monsters, genderValues, raceValues, statusValues]);
 
   const onGenderCheckboxChange = (event) => {
-    setGenderValues(event.target.checked ? event.target.value : "");
+    let newGenderValues = [];
+    if (!event.target.checked) {
+      newGenderValues = genderValues.filter(
+        (item) => item !== event.target.value
+      );
+    } else {
+      newGenderValues = [
+        ...genderValues,
+        event.target.checked ? event.target.value : "",
+      ];
+    }
+    setGenderValues(newGenderValues);
   };
+
   const onRaceCheckboxChange = (event) => {
-    setRaceValues(event.target.checked ? event.target.value : "");
+    let newRaceValues = [];
+    if (!event.target.checked) {
+      newRaceValues = raceValues.filter((item) => item !== event.target.value);
+    } else {
+      newRaceValues = [
+        ...raceValues,
+        event.target.checked ? event.target.value : "",
+      ];
+    }
+    setRaceValues(newRaceValues);
   };
   const onStatusCheckboxChange = (event) => {
-    setStatusValues(event.target.checked ? event.target.value : "");
+    let newStatusValues = [];
+    if (!event.target.checked) {
+      newStatusValues = statusValues.filter(
+        (item) => item !== event.target.value
+      );
+    } else {
+      newStatusValues = [
+        ...statusValues,
+        event.target.checked ? event.target.value : "",
+      ];
+    }
+    setStatusValues(newStatusValues);
   };
 
   return (

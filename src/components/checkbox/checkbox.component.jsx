@@ -7,7 +7,7 @@ const Checkbox = ({ className, values, onChangeHandler }) => {
         return (
           <label htmlFor="checkbox" key={value}>
             {value}
-            <input type="checkbox" id={value} name={value} value={value} onChange={onChangeHandler} />
+            <input type="checkbox" id={value} name={value} value={value} onChange={onChangeHandler}/>
           </label>
         );
       })}
