@@ -5,6 +5,10 @@ import Checkbox from "./components/checkbox/checkbox.component";
 import "./App.css";
 
 const App = () => {
+  const GENDERS = ["male", "female", "non-binary"];
+  const RACES = ["black", "white", "asian"];
+  const STATUSES = ["student", "faculty", "staff"];
+  const [clicked, setClicked] = useState(false);
   const [monsters, setMonsters] = useState([]);
   var [filteredMonsters, setFilteredMonsters] = useState(monsters);
   const [genderValues, setGenderValues] = useState([]);
@@ -18,17 +22,24 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    filteredMonsters = monsters.filter((monster) => {
-      return (
-        genderValues.includes(monster.gender) &&
-        raceValues.includes(monster.race) &&
-        statusValues.includes(monster.status)
-      );
-    });
-    setFilteredMonsters(filteredMonsters);
+    setFilteredMonsters(monsters);
+  }, [monsters]);
+
+  useEffect(() => {
+    if (clicked) {
+      filteredMonsters = monsters.filter((monster) => {
+        return (
+          !(genderValues.includes(monster.gender)) &&
+          !(raceValues.includes(monster.race)) &&
+          !(statusValues.includes(monster.status))
+        );
+      });
+      setFilteredMonsters(filteredMonsters);
+    }
   }, [monsters, genderValues, raceValues, statusValues]);
 
   const onGenderCheckboxChange = (event) => {
+    setClicked(true);
     let newGenderValues = [];
     if (!event.target.checked) {
       newGenderValues = genderValues.filter(
@@ -44,6 +55,7 @@ const App = () => {
   };
 
   const onRaceCheckboxChange = (event) => {
+    setClicked(true);
     let newRaceValues = [];
     if (!event.target.checked) {
       newRaceValues = raceValues.filter((item) => item !== event.target.value);
@@ -56,6 +68,7 @@ const App = () => {
     setRaceValues(newRaceValues);
   };
   const onStatusCheckboxChange = (event) => {
+    setClicked(true);
     let newStatusValues = [];
     if (!event.target.checked) {
       newStatusValues = statusValues.filter(
@@ -70,8 +83,6 @@ const App = () => {
     setStatusValues(newStatusValues);
   };
 
-
-
   return (
     <div className="App">
       <h1 className="app-title">Monster Roloex</h1>
@@ -79,19 +90,19 @@ const App = () => {
         id="gender"
         className="monsters-checkbox"
         onChangeHandler={onGenderCheckboxChange}
-        values={["male", "female", "non-binary"]}
+        values={GENDERS}
       />
       <Checkbox
         id="race"
         className="monsters-checkbox"
         onChangeHandler={onRaceCheckboxChange}
-        values={["black", "white", "asian"]}
+        values={RACES}
       />
       <Checkbox
         id="status"
         className="monsters-checkbox"
         onChangeHandler={onStatusCheckboxChange}
-        values={["student", "faculty", "staff"]}
+        values={STATUSES}
       />
       <CardList monsters={filteredMonsters} />
     </div>

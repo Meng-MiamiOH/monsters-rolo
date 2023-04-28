@@ -1,0 +1,25 @@
+input[type="checkbox"] {
+  -webkit-appearance: initial;
+  appearance: initial;
+  background: white;
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  position: relative;
+}
+input[type="checkbox"]:checked {
+  background: red;
+}
+input[type="checkbox"]:checked:after {
+  content: "X";
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/* https://stackoverflow.com/questions/40123695/after-selecting-check-box-instead-of-tick-symbol-need-x-in-html */
