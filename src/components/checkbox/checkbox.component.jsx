@@ -7,7 +7,7 @@ const Checkbox = ({ className, values, onChangeHandler }) => {
       {values.map((value) => {
         return (
           <label htmlFor="checkbox" key={value}>
-            <a>{value}</a>
+            <a href="#">{value}</a>
             <input
               type="checkbox"
               id={value}
